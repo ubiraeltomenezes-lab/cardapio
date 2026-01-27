@@ -10,7 +10,6 @@
         .card { background: #2d2d2d; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #e63946; }
         h2 { color: #e63946; font-size: 1.1em; margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 5px; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #444; color: white; box-sizing: border-box; font-family: inherit; }
-        textarea { resize: none; height: 60px; border: 1px dashed #666; }
         .btn-categoria { width: 100%; background: #444; color: white; border: 2px solid #e63946; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; text-align: left; margin-bottom: 10px; position: relative; }
         .btn-categoria::after { content: '▼'; position: absolute; right: 15px; font-size: 0.8em; }
         .tipo-selecao { display: flex; gap: 10px; margin-bottom: 10px; }
@@ -18,20 +17,15 @@
         .tipo-btn.active { background: #e63946; border-color: white; font-weight: bold; }
         .menu-grid { display: none; background: #333; border-radius: 8px; padding: 10px; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .item-grid { background: #444; padding: 12px; border-radius: 5px; text-align: center; cursor: pointer; font-size: 0.9em; border: 1px solid #555; }
-        .item-grid small { display: block; color: #aaa; margin-top: 2px; }
-        .item-selecionado { display: flex; align-items: center; justify-content: space-between; background: #3d3d3d; padding: 10px; border-radius: 8px; margin-top: 8px; border: 1px solid #444; animation: fadeIn 0.3s; }
+        .item-selecionado { display: flex; align-items: center; justify-content: space-between; background: #3d3d3d; padding: 10px; border-radius: 8px; margin-top: 8px; border: 1px solid #444; }
         .controles { display: flex; align-items: center; gap: 15px; }
         .btn-qtd { background: #e63946; color: white; border: none; width: 28px; height: 28px; border-radius: 50%; font-weight: bold; cursor: pointer; }
         .flex { display: flex; gap: 10px; }
         .btn-enviar { width: 100%; background: #28a745; color: white; border: none; padding: 18px; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 10px; }
         .total-box { background: #e63946; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; }
-        .total-val { font-size: 1.8em; font-weight: bold; }
+        .notinha { background: #fff; color: #333; padding: 15px; border-radius: 8px; font-family: monospace; margin-bottom: 15px; border-left: 10px solid #ccc; }
         .pix-box { background: #1f1f1f; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px dashed #00ffd5; text-align: center; }
-        .pix-chave { color: #00ffd5; font-weight: bold; font-size: 1.1em; word-break: break-all; margin: 10px 0; display: block; }
-        .btn-copiar { background: #00ffd5; color: black; border: none; padding: 5px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold; cursor: pointer; }
-        .pix-aviso { color: #ffcc00; font-size: 0.8em; margin-top: 10px; display: block; font-style: italic; }
         .hidden { display: none !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -54,10 +48,10 @@
     </div>
 
     <div class="card">
-        <h2>🍕 Pizza</h2>
+        <h2>🍕 Pizzas</h2>
         <div class="tipo-selecao">
-            <div id="tG" class="tipo-btn active" onclick="setTamanho('grande')">Grande (R$ 40)</div>
-            <div id="tB" class="tipo-btn" onclick="setTamanho('broto')">Broto (R$ 25)</div>
+            <div id="tG" class="tipo-btn active" onclick="setTamanho('Grande', 40)">Grande (R$ 40)</div>
+            <div id="tB" class="tipo-btn" onclick="setTamanho('Broto', 25)">Broto (R$ 25)</div>
         </div>
         <div class="tipo-selecao">
             <div id="bI" class="tipo-btn active" onclick="setTipo('inteira')">Inteira</div>
@@ -65,26 +59,27 @@
         </div>
         <button class="btn-categoria" id="btnSabor1" onclick="toggleMenu('lista1')">Escolher Sabor</button>
         <div id="lista1" class="menu-grid">
-            <div class="item-grid" onclick="escolherSabor(1, 'Mussarela')">Mussarela</div>
-            <div class="item-grid" onclick="escolherSabor(1, 'Calabresa')">Calabresa</div>
-            <div class="item-grid" onclick="escolherSabor(1, 'Frango Catupiry')">Frango Catupiry</div>
+            <div class="item-grid" onclick="selecionarSabor(1, 'Mussarela')">Mussarela</div>
+            <div class="item-grid" onclick="selecionarSabor(1, 'Calabresa')">Calabresa</div>
+            <div class="item-grid" onclick="selecionarSabor(1, 'Frango Catupiry')">Frango Catupiry</div>
         </div>
         <div id="containerMeia" class="hidden">
             <button class="btn-categoria" id="btnSabor2" onclick="toggleMenu('lista2')">Escolher 2º Sabor</button>
             <div id="lista2" class="menu-grid">
-                <div class="item-grid" onclick="escolherSabor(2, 'Mussarela')">Mussarela</div>
-                <div class="item-grid" onclick="escolherSabor(2, 'Calabresa')">Calabresa</div>
+                <div class="item-grid" onclick="selecionarSabor(2, 'Mussarela')">Mussarela</div>
+                <div class="item-grid" onclick="selecionarSabor(2, 'Calabresa')">Calabresa</div>
             </div>
         </div>
-        <textarea id="obsPizza" placeholder="Alguma observação na pizza?"></textarea>
+        <button class="btn-enviar" style="background:#444; border: 1px solid #e63946; font-size: 0.9em;" onclick="addPizza()">➕ ADICIONAR PIZZA AO PEDIDO</button>
+        <div id="carrinhoPizzas"></div>
     </div>
 
     <div class="card">
         <h2>🥟 Esfihas (R$ 5,00)</h2>
         <button class="btn-categoria" onclick="toggleMenu('menuEsfihas')">Adicionar Esfihas</button>
         <div id="menuEsfihas" class="menu-grid">
-            <div class="item-grid" onclick="addItem('esfihas', 'Carne', 5)">🥩 Carne</div>
-            <div class="item-grid" onclick="addItem('esfihas', 'Queijo', 5)">🧀 Queijo</div>
+            <div class="item-grid" onclick="addItem('Esfiha Carne', 5)">🥩 Carne</div>
+            <div class="item-grid" onclick="addItem('Esfiha Queijo', 5)">🧀 Queijo</div>
         </div>
         <div id="carrinhoEsfihas"></div>
     </div>
@@ -93,8 +88,8 @@
         <h2>🍟 Porções</h2>
         <button class="btn-categoria" onclick="toggleMenu('menuPorcoes')">Adicionar Porções</button>
         <div id="menuPorcoes" class="menu-grid">
-            <div class="item-grid" onclick="addItem('porcoes', 'Batata Frita', 25)">🍟 Batata <small>R$ 25</small></div>
-            <div class="item-grid" onclick="addItem('porcoes', 'Frango Pass.', 35)">🍗 Frango <small>R$ 35</small></div>
+            <div class="item-grid" onclick="addItem('Batata Frita', 25)">🍟 Batata (R$25)</div>
+            <div class="item-grid" onclick="addItem('Frango Pass.', 35)">🍗 Frango (R$35)</div>
         </div>
         <div id="carrinhoPorcoes"></div>
     </div>
@@ -103,126 +98,98 @@
         <h2>🥤 Bebidas</h2>
         <button class="btn-categoria" onclick="toggleMenu('menuBebidas')">Adicionar Bebidas</button>
         <div id="menuBebidas" class="menu-grid">
-            <div class="item-grid" onclick="addItem('bebidas', 'Coca 2L', 12)">🥤 Coca 2L <small>R$ 12</small></div>
-            <div class="item-grid" onclick="addItem('bebidas', 'Coca Lata', 6)">🥫 Coca Lata <small>R$ 6</small></div>
+            <div class="item-grid" onclick="addItem('Coca 2L', 12)">🥤 Coca 2L (R$12)</div>
+            <div class="item-grid" onclick="addItem('Coca Lata', 6)">🥫 Coca Lata (R$6)</div>
         </div>
         <div id="carrinhoBebidas"></div>
     </div>
 
     <div class="card">
         <h2>💳 Pagamento</h2>
-        <select id="pagamento" onchange="pagamentoVer()">
+        <select id="pagamento" onchange="verPix()">
             <option value="Cartão">Cartão</option>
-            <option value="PIX">PIX</option>
             <option value="Dinheiro">Dinheiro</option>
+            <option value="PIX">PIX</option>
         </select>
         <input type="text" id="troco" class="hidden" placeholder="Troco para quanto?">
-        
-        <div id="painelPix" class="pix-box hidden">
-            <span>Chave PIX:</span>
-            <span class="pix-chave" id="chavePix">13997446989</span> <button class="btn-copiar" onclick="copiarPix()">COPIAR CHAVE</button>
-            <span class="pix-aviso">⚠️ Envie o comprovante após finalizar.</span>
-        </div>
+        <div id="painelPix" class="pix-box hidden">Chave PIX: <b>13997446989</b></div>
     </div>
 
-    <div class="total-box">
-        <span>Total Geral</span><br>
-        <span class="total-val" id="resTotal">R$ 0,00</span>
+    <div class="notinha" id="resumoNotinha">
+        <b>RESUMO DO PEDIDO:</b><br>
+        <span>Nenhum item selecionado.</span>
     </div>
 
+    <div class="total-box">Total: <b id="resTotal">R$ 0,00</b></div>
     <button class="btn-enviar" onclick="enviar()">🚀 ENVIAR PARA O WHATSAPP</button>
 </div>
 
 <script>
-    let tam = 'grande', tipo = 'inteira', s1 = '', s2 = '';
-    let pedido = { esfihas: {}, porcoes: {}, bebidas: {} };
+    let pizzaAtual = { tam: 'Grande', preco: 40, tipo: 'inteira', s1: '', s2: '' };
+    let pizzas = []; let extras = {};
 
     function toggleMenu(id) {
-        const m = document.getElementById(id);
-        const d = m.style.display;
-        document.querySelectorAll('.menu-grid').forEach(x => x.style.display = 'none');
-        m.style.display = d === 'grid' ? 'none' : 'grid';
+        let m = document.getElementById(id);
+        document.querySelectorAll('.menu-grid').forEach(x => { if(x.id!==id) x.style.display='none'; });
+        m.style.display = m.style.display==='grid' ? 'none' : 'grid';
     }
 
-    function addItem(cat, nome, preco) {
-        pedido[cat][nome] = pedido[cat][nome] || { qtd: 0, preco: preco };
-        pedido[cat][nome].qtd++;
-        renderCarrinho(cat);
-        document.querySelectorAll('.menu-grid').forEach(x => x.style.display = 'none');
-        calc();
+    function setTamanho(t,p) { pizzaAtual.tam=t; pizzaAtual.preco=p; document.getElementById('tG').classList.toggle('active', t==='Grande'); document.getElementById('tB').classList.toggle('active', t==='Broto'); }
+    function setTipo(ti) { pizzaAtual.tipo=ti; document.getElementById('bI').classList.toggle('active', ti==='inteira'); document.getElementById('bM').classList.toggle('active', ti==='meia'); document.getElementById('containerMeia').classList.toggle('hidden', ti==='inteira'); }
+    function selecionarSabor(n,s) { if(n===1){pizzaAtual.s1=s; document.getElementById('btnSabor1').innerText=s; toggleMenu('lista1');} else {pizzaAtual.s2=s; document.getElementById('btnSabor2').innerText=s; toggleMenu('lista2');}}
+
+    function addPizza() {
+        if(!pizzaAtual.s1 || (pizzaAtual.tipo==='meia' && !pizzaAtual.s2)) return alert("Escolha o sabor!");
+        pizzas.push({ nome: `Pizza ${pizzaAtual.tam} (${pizzaAtual.tipo==='inteira'?pizzaAtual.s1:pizzaAtual.s1+'/'+pizzaAtual.s2})`, preco: pizzaAtual.preco });
+        pizzaAtual.s1=''; pizzaAtual.s2=''; document.getElementById('btnSabor1').innerText='Escolher Sabor'; document.getElementById('btnSabor2').innerText='Escolher 2º Sabor';
+        renderPizzas(); calc();
     }
 
-    function mudarQtd(cat, nome, delta) {
-        pedido[cat][nome].qtd += delta;
-        if (pedido[cat][nome].qtd <= 0) delete pedido[cat][nome];
-        renderCarrinho(cat);
-        calc();
+    function addItem(n, p) { extras[n] = extras[n] || { qtd: 0, preco: p }; extras[n].qtd++; renderExtras(); calc(); }
+    function mudarExtra(n, d) { extras[n].qtd+=d; if(extras[n].qtd<=0) delete extras[n]; renderExtras(); calc(); }
+    function removerPizza(i) { pizzas.splice(i,1); renderPizzas(); calc(); }
+
+    function renderPizzas() {
+        let h=''; pizzas.forEach((p,i)=> h+=`<div class="item-selecionado"><span>${p.nome}</span><button class="btn-qtd" onclick="removerPizza(${i})">X</button></div>`);
+        document.getElementById('carrinhoPizzas').innerHTML = h;
     }
 
-    function renderCarrinho(cat) {
-        const containers = { esfihas: 'carrinhoEsfihas', porcoes: 'carrinhoPorcoes', bebidas: 'carrinhoBebidas' };
-        const container = document.getElementById(containers[cat]);
-        container.innerHTML = '';
-        for (let nome in pedido[cat]) {
-            container.innerHTML += `<div class="item-selecionado"><span><b>${nome}</b> (x${pedido[cat][nome].qtd})</span><div class="controles"><button class="btn-qtd" onclick="mudarQtd('${cat}','${nome}',-1)">-</button><span>${pedido[cat][nome].qtd}</span><button class="btn-qtd" onclick="mudarQtd('${cat}','${nome}',1)">+</button></div></div>`;
+    function renderExtras() {
+        const cats = { 'Esfiha': 'carrinhoEsfihas', 'Batata': 'carrinhoPorcoes', 'Frango': 'carrinhoPorcoes', 'Coca': 'carrinhoBebidas' };
+        document.getElementById('carrinhoEsfihas').innerHTML = ''; document.getElementById('carrinhoPorcoes').innerHTML = ''; document.getElementById('carrinhoBebidas').innerHTML = '';
+        for (let n in extras) {
+            let catId = n.includes('Esfiha') ? 'carrinhoEsfihas' : (n.includes('Coca') ? 'carrinhoBebidas' : 'carrinhoPorcoes');
+            document.getElementById(catId).innerHTML += `<div class="item-selecionado"><span>${n} (x${extras[n].qtd})</span><div class="controles"><button class="btn-qtd" onclick="mudarExtra('${n}',-1)">-</button><button class="btn-qtd" onclick="mudarExtra('${n}',1)">+</button></div></div>`;
         }
     }
 
-    function setTamanho(t) { tam = t; document.getElementById('tG').classList.toggle('active', t==='grande'); document.getElementById('tB').classList.toggle('active', t==='broto'); calc(); }
-    function setTipo(ti) { tipo = ti; document.getElementById('bI').classList.toggle('active', ti==='inteira'); document.getElementById('bM').classList.toggle('active', ti==='meia'); document.getElementById('containerMeia').classList.toggle('hidden', ti==='inteira'); s1=''; s2=''; calc(); }
-    function escolherSabor(n, s) {
-        if(n===1) { s1=s; document.getElementById('btnSabor1').innerText = s; }
-        else { s2=s; document.getElementById('btnSabor2').innerText = s; }
-        document.querySelectorAll('.menu-grid').forEach(x => x.style.display = 'none');
-        calc();
-    }
-
-    function pagamentoVer() {
-        const p = document.getElementById('pagamento').value;
-        document.getElementById('troco').classList.toggle('hidden', p !== 'Dinheiro');
-        document.getElementById('painelPix').classList.toggle('hidden', p !== 'PIX');
-    }
-
-    function copiarPix() {
-        const chave = document.getElementById('chavePix').innerText;
-        navigator.clipboard.writeText(chave);
-        alert("Chave PIX copiada!");
-    }
-
-    window.onload = function() {
-        ['nome', 'tel', 'rua', 'numero', 'ref', 'bairro'].forEach(id => {
-            if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
-        });
-        calc();
-    }
+    function verPix() { document.getElementById('painelPix').classList.toggle('hidden', document.getElementById('pagamento').value!=='PIX'); document.getElementById('troco').classList.toggle('hidden', document.getElementById('pagamento').value!=='Dinheiro'); }
 
     function calc() {
-        let total = parseFloat(document.getElementById('bairro').value) || 0;
-        if (s1) total += (tam==='grande' ? 40 : 25);
-        for (let cat in pedido) {
-            for (let item in pedido[cat]) total += (pedido[cat][item].qtd * pedido[cat][item].preco);
-        }
+        let taxa = parseFloat(document.getElementById('bairro').value) || 0;
+        let total = taxa;
+        let resumo = "<b>RESUMO DO PEDIDO:</b><br>";
+        pizzas.forEach(p => { resumo += `${p.nome}: R$ ${p.preco.toFixed(2)}<br>`; total += p.preco; });
+        for (let n in extras) { resumo += `${n} (x${extras[n].qtd}): R$ ${(extras[n].qtd * extras[n].preco).toFixed(2)}<br>`; total += (extras[n].qtd * extras[n].preco); }
+        if(taxa > 0) resumo += `Taxa de Entrega: R$ ${taxa.toFixed(2)}<br>`;
+        
+        document.getElementById('resumoNotinha').innerHTML = total > taxa ? resumo : "Nenhum item selecionado.";
         document.getElementById('resTotal').innerText = "R$ " + total.toFixed(2);
         return total;
     }
 
     function enviar() {
-        const d = { nome: document.getElementById('nome').value, rua: document.getElementById('rua').value, num: document.getElementById('numero').value, bairro: document.getElementById('bairro').options[document.getElementById('bairro').selectedIndex].text };
-        if(!d.nome || !d.rua || d.bairro.includes("Bairro")) return alert("Preencha os dados!");
-
-        ['nome', 'tel', 'rua', 'numero', 'ref', 'bairro'].forEach(id => localStorage.setItem(id, document.getElementById(id).value));
-
-        let msg = `*NOVO PEDIDO*%0A*Cliente:* ${d.nome}%0A*End:* ${d.rua}, ${d.num} - ${d.bairro}%0A%0A`;
-        if(s1) msg += `*PIZZA ${tam.toUpperCase()}:* ${tipo==='inteira' ? s1 : s1 + ' / ' + s2}%0A*OBS:* ${document.getElementById('obsPizza').value}%0A%0A`;
+        let n = document.getElementById('nome').value;
+        let r = document.getElementById('rua').value;
+        let b = document.getElementById('bairro').options[document.getElementById('bairro').selectedIndex].text;
+        if(!n || !r || b.includes("Escolha")) return alert("Preencha Nome, Rua e Bairro!");
         
-        for (let cat in pedido) {
-            for (let item in pedido[cat]) msg += `*${item}:* ${pedido[cat][item].qtd}x%0A`;
-        }
-
-        msg += `%0A*TOTAL: R$ ${calc().toFixed(2)}*%0A*PAGAMENTO:* ${document.getElementById('pagamento').value}`;
+        let msg = `*NOVO PEDIDO*%0A*Cliente:* ${n}%0A*End:* ${r}, ${document.getElementById('numero').value}%0A*Bairro:* ${b}%0A%0A*ITENS:*%0A`;
+        pizzas.forEach(p => msg += `- ${p.nome} (R$ ${p.preco})%0A`);
+        for (let it in extras) msg += `- ${it} x${extras[it].qtd} (R$ ${extras[it].qtd*extras[it].preco})%0A`;
         
-        const MEU_WHATS = "5513996963108"; // ALTERE AQUI COM SEU DDD
-        window.open(`https://wa.me/${MEU_WHATS}?text=${msg}`);
+        msg += `%0A*TOTAL: R$ ${calc().toFixed(2)}*%0A*Pgto:* ${document.getElementById('pagamento').value}`;
+        window.open(`https://wa.me/5513996963108?text=${msg}`);
     }
 </script>
 </body>
